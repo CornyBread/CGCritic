@@ -1,0 +1,106 @@
+# ============================================================
+.env
+.env.local
+.env.*.local
+
+# ============================================================
+# IONIC / CAPACITOR
+# ============================================================
+/.ionic
+/www
+/platforms
+/plugins
+
+# ============================================================
+# ANDROID BUILD
+# ============================================================
+/android/app/build/
+/android/.gradle/
+/android/local.properties
+/android/capacitor-cordova-android-plugins/
+
+# iOS build
+/ios/App/Pods/
+/ios/.xcode.env.local
+
+# Keystore y certificados (¡nunca exponer!)
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+*.cer
+*.crt
+google-services.json
+GoogleService-Info.plist
+
+# ============================================================
+# COMPILED OUTPUT
+# ============================================================
+/dist
+/tmp
+/out-tsc
+/bazel-out
+/.angular
+/.angular/cache
+/.sourcemaps
+/.versions
+
+# ============================================================
+# NODE
+# ============================================================
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# ============================================================
+# LOGS
+# ============================================================
+*.log
+*.tmp
+*.tmp.*
+*.sw[mnpcod]
+*~
+.tmp
+log.txt
+/libpeerconnection.log
+testem.log
+
+# ============================================================
+# IDEs & EDITORS
+# ============================================================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# ============================================================
+# OS
+# ============================================================
+.DS_Store
+Thumbs.db
+$RECYCLE.BIN/
+UserInterfaceState.xcuserstate
+desktop.ini
+
+# ============================================================
+# ETC
+# ============================================================
+.sass-cache/
+/.nx
+/.nx/cache
+/connect.lock
+/coverage
+/typings
