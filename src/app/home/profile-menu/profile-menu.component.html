@@ -1,0 +1,140 @@
+<div class="profile-card">
+  <button class="pm-close" type="button" (click)="close.emit()" aria-label="Cerrar">
+    <ion-icon name="close"></ion-icon>
+  </button>
+
+  @if (loading) {
+    <div class="pm-loading"><ion-spinner name="crescent"></ion-spinner></div>
+  } @else {
+    @if (loadError) {
+      <p class="pm-warn">No se pudo cargar tu perfil.</p>
+    }
+
+    <header class="pm-head">
+      <span class="pm-username">{{ profile?.username || 'Usuario' }}</span>
+      <span class="pm-sep">—</span>
+      <span class="pm-role">{{ role }}</span>
+    </header>
+
+    <section class="pm-email">
+      <span class="pm-label">Email</span>
+      <div class="pm-email-value">{{ profile?.email || '—' }}</div>
+    </section>
+
+    <div class="pm-divider"></div>
+    <h3 class="pm-section-title">Editar perfil</h3>
+
+    <!-- Username -->
+    <div class="pm-field">
+      <ion-input
+        class="pm-input"
+        type="text"
+        placeholder="Nuevo username"
+        autocapitalize="off"
+        [(ngModel)]="newUsername"
+      ></ion-input>
+      <ion-button class="pm-save" (click)="saveUsername()" [disabled]="busy === 'username'">
+        @if (busy === 'username') {
+          <ion-spinner name="crescent"></ion-spinner>
+        } @else {
+          Save
+        }
+      </ion-button>
+    </div>
+
+    <!-- Email: step 1 (new address) or step 2 (verification code) -->
+    @if (!awaitingCode) {
+      <div class="pm-field">
+        <ion-input
+          class="pm-input"
+          type="email"
+          placeholder="Nuevo email"
+          autocomplete="email"
+          [(ngModel)]="newEmail"
+        ></ion-input>
+        <ion-button class="pm-save" (click)="saveEmail()" [disabled]="busy === 'email'">
+          @if (busy === 'email') {
+            <ion-spinner name="crescent"></ion-spinner>
+          } @else {
+            Save
+          }
+        </ion-button>
+      </div>
+    } @else {
+      <div class="pm-field">
+        <ion-input
+          class="pm-input"
+          type="text"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="Código de 6 dígitos"
+          [(ngModel)]="emailCode"
+        ></ion-input>
+        <ion-button class="pm-save" (click)="verifyEmail()" [disabled]="busy === 'code'">
+          @if (busy === 'code') {
+            <ion-spinner name="crescent"></ion-spinner>
+          } @else {
+            OK
+          }
+        </ion-button>
+      </div>
+      <button class="pm-link" type="button" (click)="cancelEmailChange()">
+        Cancelar cambio de email
+      </button>
+    }
+
+    <p class="pm-hint">El cambio de contraseña estará disponible pronto.</p>
+
+    @if (message) {
+      <p class="pm-message" [class.err]="messageKind === 'err'">{{ message }}</p>
+    }
+
+    <!-- Actions -->
+    @if (!confirmingDelete) {
+      <div class="pm-actions">
+        <ion-button
+          class="pm-action"
+          fill="outline"
+          (click)="becomeCritic()"
+          [disabled]="busy === 'critic' || isCritic"
+        >
+          @if (busy === 'critic') {
+            <ion-spinner name="crescent"></ion-spinner>
+          } @else {
+            {{ isCritic ? 'Ya eres crítico' : 'Ser crítico' }}
+          }
+        </ion-button>
+        <ion-button class="pm-action danger" fill="outline" (click)="deleteAccount()">
+          Delete acc
+        </ion-button>
+      </div>
+    } @else {
+      <div class="pm-confirm">
+        <p class="pm-confirm-text">¿Eliminar tu cuenta? Esta acción no se puede deshacer.</p>
+        <div class="pm-actions">
+          <ion-button
+            class="pm-action"
+            fill="outline"
+            (click)="cancelDelete()"
+            [disabled]="busy === 'delete'"
+          >
+            Cancelar
+          </ion-button>
+          <ion-button
+            class="pm-action danger"
+            fill="solid"
+            color="danger"
+            (click)="deleteAccount()"
+            [disabled]="busy === 'delete'"
+          >
+            @if (busy === 'delete') {
+              <ion-spinner name="crescent"></ion-spinner>
+            } @else {
+              Eliminar
+            }
+          </ion-button>
+        </div>
+      </div>
+    }
+  }
+</div>

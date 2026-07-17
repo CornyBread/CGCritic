@@ -8,10 +8,12 @@ import {
   IonButtons,
   IonButton,
   IonIcon,
+  IonModal,
 } from '@ionic/angular/standalone';
 
 import { AuthService } from '../core/services/auth.service';
 import { UserService } from '../core/services/user.service';
+import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +27,8 @@ import { UserService } from '../core/services/user.service';
     IonButtons,
     IonButton,
     IonIcon,
+    IonModal,
+    ProfileMenuComponent,
   ],
 })
 export class HomePage {
@@ -32,12 +36,24 @@ export class HomePage {
   private readonly users = inject(UserService);
   private readonly router = inject(Router);
 
+  profileOpen = false;
+
+  /** Placeholder avatar initials until the profile loads inside the panel. */
+  get initials(): string {
+    return 'CG';
+  }
+
+  openProfile(): void {
+    this.profileOpen = true;
+  }
+
+  closeProfile(): void {
+    this.profileOpen = false;
+  }
+
   async logout(): Promise<void> {
-    try {
-      await this.users.logoutUser();
-    } catch {
-      // Ignore network failures on logout; we clear the local session anyway.
-    }
+    // Clears the server session; we drop the local session regardless of result.
+    await this.users.logout();
     this.auth.setSession(false);
     this.router.navigateByUrl('/login', { replaceUrl: true });
   }

@@ -149,7 +149,10 @@ export class AuthService {
       };
     }
 
+    // The backend exposes error details under `error` (validation errors carry
+    // raw, technical text we must never surface to the user).
     const backendMessage = err.error?.message || err.error?.error || '';
+    const isVerification = context.startsWith('Verification');
 
     switch (err.status) {
       case 0:
@@ -157,18 +160,15 @@ export class AuthService {
           success: false,
           error: 'Network error. Please check your connection and try again.',
         };
+      // 400 — only /user/verify-account returns it (invalid / expired code).
       case 400:
         return {
           success: false,
-          error: backendMessage || 'The request could not be processed. Please try again.',
+          error: isVerification
+            ? 'The verification code is invalid or has expired. Please request a new one.'
+            : 'The request could not be processed. Please try again.',
         };
-      case 422:
-        return {
-          success: false,
-          error:
-            backendMessage ||
-            'Invalid input. Please check your email, username, and password format.',
-        };
+      // 401 — only /auth/local/login returns it. Backend text here is clean.
       case 401:
         return {
           success: false,
@@ -176,16 +176,26 @@ export class AuthService {
             backendMessage ||
             'Invalid email/username or password. If you just registered, please verify your email first.',
         };
+      // 409 — only /user/register returns it (email or username taken).
       case 409:
         return {
           success: false,
           error: backendMessage || 'This email or username is already in use.',
         };
+      // 422 — validation error. Backend text is a raw deserialization dump,
+      // so always use a friendly, context-appropriate message instead.
+      case 422:
+        return {
+          success: false,
+          error: isVerification
+            ? 'Please enter the complete 6-digit verification code.'
+            : 'Invalid input. Please check your email, username, and password format.',
+        };
+      // 429 — every endpoint can rate-limit.
       case 429:
         return {
           success: false,
-          error:
-            backendMessage || 'Too many attempts. Please wait a moment and try again.',
+          error: 'Too many attempts. Please wait a moment and try again.',
         };
       case 500:
         return { success: false, error: 'Server error. Please try again later.' };

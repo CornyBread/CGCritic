@@ -13,6 +13,48 @@
   }
 }
 
+.avatar-btn {
+  width: 38px;
+  height: 38px;
+  margin-inline: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  .avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #0b0710;
+    background: linear-gradient(135deg, var(--cg-gold) 0%, var(--cg-crimson) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px rgba(229, 9, 59, 0.35);
+  }
+
+  &:active .avatar {
+    transform: scale(0.94);
+  }
+}
+
+.profile-modal {
+  --background: transparent;
+  --box-shadow: none;
+  --width: min(92vw, 380px);
+  --height: auto;
+  --border-radius: 22px;
+
+  &::part(content) {
+    background: transparent;
+  }
+}
+
 .home-content {
   --background: var(--cg-bg);
 }

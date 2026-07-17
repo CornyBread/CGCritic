@@ -21,6 +21,7 @@ import {
   logoGithub,
   checkmarkCircle,
   logOutOutline,
+  close,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
@@ -39,6 +40,7 @@ addIcons({
   'logo-github': logoGithub,
   'checkmark-circle': checkmarkCircle,
   'log-out-outline': logOutOutline,
+  'close': close,
 });
 
 bootstrapApplication(AppComponent, {

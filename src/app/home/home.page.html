@@ -1,5 +1,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="home-toolbar">
+    <ion-buttons slot="start">
+      <button class="avatar-btn" type="button" (click)="openProfile()" aria-label="Perfil">
+        <span class="avatar">{{ initials }}</span>
+      </button>
+    </ion-buttons>
     <ion-title>CGCritic</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="logout()">
@@ -16,3 +21,9 @@
     <p>Nothing here yet — this is where the magic will happen.</p>
   </div>
 </ion-content>
+
+<ion-modal class="profile-modal" [isOpen]="profileOpen" (didDismiss)="closeProfile()">
+  <ng-template>
+    <app-profile-menu (close)="closeProfile()"></app-profile-menu>
+  </ng-template>
+</ion-modal>
