@@ -1,0 +1,59 @@
+.home-toolbar {
+  --background: var(--cg-surface);
+  --color: var(--cg-text);
+  --border-width: 0;
+
+  ion-title {
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+
+  ion-button {
+    --color: var(--cg-gold);
+  }
+}
+
+.home-content {
+  --background: var(--cg-bg);
+}
+
+.home-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  gap: 10px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cg-text);
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--cg-text-dim);
+    max-width: 280px;
+  }
+}
+
+.home-mark {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 1px;
+  color: #0b0710;
+  background: linear-gradient(135deg, var(--cg-gold) 0%, var(--cg-crimson) 100%);
+  box-shadow: 0 10px 30px rgba(229, 9, 59, 0.35);
+  margin-bottom: 8px;
+}

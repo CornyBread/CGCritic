@@ -8,12 +8,13 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "android": "JAVA_HOME=$HOME/.jdks/jdk-21.0.11+10 ionic cap run android -l --external --public-host=192.168.1.112",
     "test": "ng test",
     "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.0.0",
+    "@angular/animations": "20.3.25",
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
     "@angular/core": "^20.0.0",

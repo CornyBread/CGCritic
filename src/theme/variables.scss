@@ -1,2 +1,55 @@
+// CGCritic theme — inspired by Code Geass:
+// imperial black, royal purple, Geass crimson and Britannian gold.
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+:root {
+  /* ---- Brand tokens used across the app ---- */
+  --cg-bg: #0b0710;
+  --cg-surface: rgba(26, 19, 38, 0.78);
+  --cg-border: rgba(124, 47, 247, 0.22);
+  --cg-text: #f4f1fb;
+  --cg-text-dim: #9b91b4;
+  --cg-crimson: #e5093b;
+  --cg-purple: #7c2ff7;
+  --cg-gold: #f4c430;
+
+  /* ---- Ionic primary (Geass crimson) ---- */
+  --ion-color-primary: #e5093b;
+  --ion-color-primary-rgb: 229, 9, 59;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #c90834;
+  --ion-color-primary-tint: #e8224f;
+
+  /* ---- Ionic secondary (Britannian gold) ---- */
+  --ion-color-secondary: #f4c430;
+  --ion-color-secondary-rgb: 244, 196, 48;
+  --ion-color-secondary-contrast: #0b0710;
+  --ion-color-secondary-contrast-rgb: 11, 7, 16;
+  --ion-color-secondary-shade: #d7ac2a;
+  --ion-color-secondary-tint: #f5ca45;
+
+  /* ---- Ionic tertiary (royal purple) ---- */
+  --ion-color-tertiary: #7c2ff7;
+  --ion-color-tertiary-rgb: 124, 47, 247;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #6d29d9;
+  --ion-color-tertiary-tint: #8944f8;
+
+  --ion-color-success: #2dd4bf;
+  --ion-color-success-rgb: 45, 212, 191;
+  --ion-color-warning: #f4c430;
+  --ion-color-danger: #e5093b;
+  --ion-color-danger-rgb: 229, 9, 59;
+
+  /* ---- Surfaces / background ---- */
+  --ion-background-color: #0b0710;
+  --ion-background-color-rgb: 11, 7, 16;
+  --ion-text-color: #f4f1fb;
+  --ion-text-color-rgb: 244, 241, 251;
+
+  --ion-toolbar-background: #150f1f;
+  --ion-item-background: #150f1f;
+}

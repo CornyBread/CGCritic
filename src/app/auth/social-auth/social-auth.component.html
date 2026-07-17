@@ -1,0 +1,31 @@
+<div class="social-buttons">
+  <ion-button
+    expand="block"
+    fill="outline"
+    class="social-btn google"
+    [disabled]="disabled || loadingProvider !== null"
+    (click)="onAuth('Google')"
+  >
+    @if (loadingProvider === 'Google') {
+      <ion-spinner name="crescent" slot="start"></ion-spinner>
+    } @else {
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+    }
+    Continue with Google
+  </ion-button>
+
+  <ion-button
+    expand="block"
+    fill="outline"
+    class="social-btn github"
+    [disabled]="disabled || loadingProvider !== null"
+    (click)="onAuth('GitHub')"
+  >
+    @if (loadingProvider === 'GitHub') {
+      <ion-spinner name="crescent" slot="start"></ion-spinner>
+    } @else {
+      <ion-icon name="logo-github" slot="start"></ion-icon>
+    }
+    Continue with GitHub
+  </ion-button>
+</div>

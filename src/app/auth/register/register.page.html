@@ -1,0 +1,168 @@
+<ion-content [fullscreen]="true" class="auth-content">
+  <div class="auth-backdrop">
+    <div class="geass-glow"></div>
+    <div class="geass-sigil"></div>
+  </div>
+
+  <div class="auth-wrapper">
+    <div class="brand">
+      <div class="brand-mark">CG</div>
+      <div class="brand-text">
+        <h1>CGCritic</h1>
+        <p>Pierce the truth of every story</p>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      @if (verified) {
+        <!-- ───── Account verified ───── -->
+        <div class="verify-success">
+          <div class="success-ring">
+            <ion-icon name="checkmark-circle"></ion-icon>
+          </div>
+          <h2 class="auth-title">Account verified!</h2>
+          <p class="auth-subtitle">Your account is ready. You may now sign in.</p>
+          <ion-button expand="block" class="submit-btn" (click)="goToLogin()">
+            Go to Sign In
+          </ion-button>
+        </div>
+      } @else if (pendingVerification) {
+        <!-- ───── Enter verification code ───── -->
+        <div class="verify-head">
+          <ion-icon name="mail-unread-outline" class="verify-icon"></ion-icon>
+          <h2 class="auth-title">Verify your account</h2>
+          <p class="auth-subtitle">
+            Enter the 6-digit code we sent to <strong>{{ email }}</strong>.
+          </p>
+        </div>
+
+        <div class="field">
+          <ion-icon name="keypad-outline" class="field-icon"></ion-icon>
+          <ion-input
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            label="Verification code"
+            labelPlacement="floating"
+            fill="solid"
+            [(ngModel)]="code"
+            name="code"
+          ></ion-input>
+        </div>
+
+        @if (error) {
+          <p class="error-text">{{ error }}</p>
+        }
+
+        <ion-button
+          expand="block"
+          class="submit-btn"
+          [disabled]="verifyLoading || code.length !== 6"
+          (click)="onVerify()"
+        >
+          @if (verifyLoading) {
+            <ion-spinner name="crescent"></ion-spinner>
+          } @else {
+            Verify
+          }
+        </ion-button>
+
+        <p class="switch-text">
+          Wrong account?
+          <button type="button" (click)="goToLogin()">Back to Sign In</button>
+        </p>
+      } @else {
+        <!-- ───── Registration form ───── -->
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Claim your power of judgment.</p>
+
+        <form (ngSubmit)="onSubmit()">
+          <div class="field" [class.field-error]="!!error">
+            <ion-icon name="mail-outline" class="field-icon"></ion-icon>
+            <ion-input
+              type="email"
+              label="Email"
+              labelPlacement="floating"
+              fill="solid"
+              autocomplete="email"
+              [(ngModel)]="email"
+              name="email"
+            ></ion-input>
+          </div>
+
+          <div class="field" [class.field-error]="!!error">
+            <ion-icon name="person-outline" class="field-icon"></ion-icon>
+            <ion-input
+              type="text"
+              label="Username"
+              labelPlacement="floating"
+              fill="solid"
+              autocomplete="username"
+              [(ngModel)]="username"
+              name="username"
+            ></ion-input>
+          </div>
+
+          <div class="field" [class.field-error]="!!error">
+            <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              label="Password"
+              labelPlacement="floating"
+              fill="solid"
+              autocomplete="new-password"
+              [(ngModel)]="password"
+              name="password"
+            ></ion-input>
+            <button type="button" class="reveal" (click)="togglePassword()">
+              <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </button>
+          </div>
+
+          <div class="field" [class.field-error]="!!error">
+            <ion-icon name="shield-checkmark-outline" class="field-icon"></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              label="Confirm password"
+              labelPlacement="floating"
+              fill="solid"
+              autocomplete="new-password"
+              [(ngModel)]="confirm"
+              name="confirm"
+            ></ion-input>
+          </div>
+
+          @if (error) {
+            <p class="error-text">{{ error }}</p>
+          }
+
+          <ion-button
+            type="submit"
+            expand="block"
+            class="submit-btn"
+            [disabled]="loading"
+          >
+            @if (loading) {
+              <ion-spinner name="crescent"></ion-spinner>
+            } @else {
+              Register
+            }
+          </ion-button>
+        </form>
+
+        <div class="divider"><span>OR</span></div>
+
+        <app-social-auth
+          [loadingProvider]="loadingProvider"
+          [disabled]="loading"
+          (auth)="onSocial($event)"
+        ></app-social-auth>
+
+        <p class="switch-text">
+          Already have an account?
+          <button type="button" (click)="goToLogin()">Sign In</button>
+        </p>
+      }
+    </div>
+  </div>
+</ion-content>

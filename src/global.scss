@@ -32,6 +32,8 @@
  * https://ionicframework.com/docs/theming/dark-mode
  */
 
+/* The app ships its own permanent Code Geass dark palette in
+   src/theme/variables.scss, so the system dark palette is intentionally off. */
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */

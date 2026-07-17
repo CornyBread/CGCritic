@@ -1,0 +1,31 @@
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-btn {
+  --border-radius: 14px;
+  --border-width: 1px;
+  --border-color: var(--cg-border);
+  --background: rgba(255, 255, 255, 0.02);
+  --background-hover: rgba(255, 255, 255, 0.06);
+  --color: var(--cg-text);
+  height: 50px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-transform: none;
+  margin: 0;
+
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.social-btn.google {
+  --border-color: rgba(244, 196, 48, 0.35);
+}
+
+.social-btn.github {
+  --border-color: rgba(124, 47, 247, 0.4);
+}

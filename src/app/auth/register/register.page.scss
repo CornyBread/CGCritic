@@ -1,0 +1,35 @@
+.verify-head,
+.verify-success {
+  text-align: center;
+}
+
+.verify-icon {
+  font-size: 52px;
+  color: var(--cg-gold);
+  margin-bottom: 10px;
+}
+
+.success-ring {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle,
+    rgba(124, 47, 247, 0.25),
+    rgba(229, 9, 59, 0.12)
+  );
+  border: 1px solid rgba(244, 196, 48, 0.3);
+
+  ion-icon {
+    font-size: 46px;
+    color: var(--cg-crimson);
+  }
+}
+
+.verify-success .submit-btn {
+  margin-top: 18px;
+}
