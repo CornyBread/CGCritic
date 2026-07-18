@@ -22,6 +22,14 @@ import {
   checkmarkCircle,
   logOutOutline,
   close,
+  gameController,
+  star,
+  people,
+  calendarOutline,
+  createOutline,
+  shieldCheckmark,
+  closeCircle,
+  starOutline,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
@@ -41,6 +49,14 @@ addIcons({
   'checkmark-circle': checkmarkCircle,
   'log-out-outline': logOutOutline,
   'close': close,
+  'game-controller': gameController,
+  'star': star,
+  'people': people,
+  'calendar-outline': calendarOutline,
+  'create-outline': createOutline,
+  'shield-checkmark': shieldCheckmark,
+  'close-circle': closeCircle,
+  'star-outline': starOutline,
 });
 
 bootstrapApplication(AppComponent, {

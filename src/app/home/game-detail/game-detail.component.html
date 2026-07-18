@@ -1,0 +1,212 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="gd-toolbar">
+    <ion-buttons slot="end">
+      <ion-button (click)="close.emit()" aria-label="Cerrar">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gd-content">
+  @if (loading) {
+    <div class="gd-state"><ion-spinner name="crescent"></ion-spinner></div>
+  } @else if (error) {
+    <div class="gd-state">
+      <ion-icon name="game-controller"></ion-icon>
+      <p>{{ error }}</p>
+    </div>
+  } @else if (game) {
+    <!-- Hero -->
+    <div class="gd-hero">
+      <div class="gd-cover">
+        @if (cover && !imageError) {
+          <img [src]="cover" [alt]="game.name" (error)="onImgError()" />
+        } @else {
+          <div class="gd-cover-ph"><ion-icon name="game-controller"></ion-icon></div>
+        }
+      </div>
+
+      <div class="gd-headline">
+        <h1 class="gd-name">{{ game.name }}</h1>
+        @if (releaseYear) {
+          <div class="gd-year">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ releaseYear }}</span>
+          </div>
+        }
+
+        <div class="gd-ratings">
+          @if (round(game.criticRating); as cr) {
+            <div class="gd-rating critic">
+              <ion-icon name="star"></ion-icon>
+              <span>{{ cr }}</span>
+              <small>crítica</small>
+            </div>
+          }
+          @if (round(game.rating); as ur) {
+            <div class="gd-rating user">
+              <ion-icon name="people"></ion-icon>
+              <span>{{ ur }}</span>
+              <small>usuarios</small>
+            </div>
+          }
+          @if (game.totalRatingCount) {
+            <div class="gd-rating count">
+              <span>{{ game.totalRatingCount }}</span>
+              <small>votos</small>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Genres -->
+    @if (game.genres.length) {
+      <div class="gd-chips">
+        @for (genre of game.genres; track genre.id) {
+          <span class="gd-chip">{{ genre.name }}</span>
+        }
+      </div>
+    }
+
+    <!-- Platforms -->
+    <section class="gd-section">
+      <h2 class="gd-section-title">Plataformas</h2>
+      @if (game.platforms.length) {
+        <div class="gd-chips">
+          @for (platform of game.platforms; track platform.id) {
+            <span class="gd-chip outline">{{ platform.name }}</span>
+          }
+        </div>
+      } @else {
+        <p class="gd-empty">Sin plataforma registrada.</p>
+      }
+    </section>
+
+    <!-- Summary -->
+    @if (game.summary) {
+      <section class="gd-section">
+        <h2 class="gd-section-title">Resumen</h2>
+        <p class="gd-summary" [class.clamped]="!summaryExpanded">{{ game.summary }}</p>
+        <button class="gd-link" type="button" (click)="summaryExpanded = !summaryExpanded">
+          {{ summaryExpanded ? 'Ver menos' : 'Ver más' }}
+        </button>
+      </section>
+    }
+
+    <!-- Companies -->
+    @if (developers.length || publishers.length || otherCompanies.length) {
+      <section class="gd-section">
+        <h2 class="gd-section-title">Compañías</h2>
+        @if (developers.length) {
+          <p class="gd-company"><span class="gd-company-role">Desarrollo:</span> {{ developers.join(', ') }}</p>
+        }
+        @if (publishers.length) {
+          <p class="gd-company"><span class="gd-company-role">Publicación:</span> {{ publishers.join(', ') }}</p>
+        }
+        @if (otherCompanies.length) {
+          <p class="gd-company"><span class="gd-company-role">Otras:</span> {{ otherCompanies.join(', ') }}</p>
+        }
+      </section>
+    }
+
+    <!-- Reviews -->
+    <section class="gd-section gd-reviews">
+      <h2 class="gd-section-title">Reseñas</h2>
+
+      @if (canReview) {
+        <div class="gd-review-form">
+          <p class="gd-form-title">{{ editing ? 'Edita tu reseña' : 'Escribe una reseña' }}</p>
+
+          <input
+            class="gd-input"
+            type="text"
+            maxlength="120"
+            placeholder="Título"
+            [(ngModel)]="reviewTitle"
+          />
+
+          <textarea
+            class="gd-textarea"
+            rows="4"
+            maxlength="2000"
+            placeholder="¿Qué te pareció el juego?"
+            [(ngModel)]="reviewContent"
+          ></textarea>
+
+          <div class="gd-rating-input">
+            <div class="gd-stars-pick">
+              @for (n of stars; track n) {
+                <button
+                  type="button"
+                  class="gd-star-btn"
+                  [class.active]="reviewRating >= n * 20"
+                  (click)="setRating(n * 20)"
+                  [attr.aria-label]="n + ' de 5'"
+                >
+                  <ion-icon [name]="reviewRating >= n * 20 ? 'star' : 'star-outline'"></ion-icon>
+                </button>
+              }
+            </div>
+            <span class="gd-rating-value">{{ reviewRating }}/100</span>
+          </div>
+
+          <div class="gd-review-actions">
+            <ion-button size="small" (click)="submitReview()" [disabled]="submitting">
+              @if (submitting) {
+                <ion-spinner name="crescent"></ion-spinner>
+              } @else {
+                <ion-icon name="create-outline" slot="start"></ion-icon>
+                {{ editing ? 'Actualizar reseña' : 'Publicar reseña' }}
+              }
+            </ion-button>
+          </div>
+
+          @if (formError) {
+            <p class="gd-notice err">{{ formError }}</p>
+          }
+        </div>
+      }
+
+      @if (reviewsLoading) {
+        <div class="gd-reviews-loading"><ion-spinner name="crescent"></ion-spinner></div>
+      } @else if (reviewsError) {
+        <p class="gd-notice err">{{ reviewsError }}</p>
+      } @else if (reviews.length === 0) {
+        <p class="gd-empty">Aún no hay reseñas para este juego.</p>
+      } @else {
+        <div class="gd-review-list">
+          @for (review of reviews; track review.id) {
+            <article class="gd-review" [class.own]="isOwnReview(review)">
+              <div class="gd-review-head">
+                <span
+                  class="gd-badge"
+                  [class.critic]="review.reviewType === 'critic'"
+                >
+                  {{ review.reviewType === 'critic' ? 'Crítico' : 'Usuario' }}
+                </span>
+                @if (isOwnReview(review)) {
+                  <span class="gd-badge own">Tu reseña</span>
+                }
+                <span class="gd-review-score">
+                  <ion-icon name="star"></ion-icon>{{ review.rating }}<small>/100</small>
+                </span>
+              </div>
+
+              <h3 class="gd-review-title">{{ review.title }}</h3>
+
+              <div class="gd-stars-show" aria-hidden="true">
+                <span class="gd-stars-bg">★★★★★</span>
+                <span class="gd-stars-fill" [style.width.%]="review.rating">★★★★★</span>
+              </div>
+
+              <p class="gd-review-content">{{ review.content }}</p>
+              <span class="gd-review-date">{{ formatDate(review.updatedAt || review.createdAt) }}</span>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+</ion-content>

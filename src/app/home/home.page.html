@@ -5,9 +5,23 @@
         <span class="avatar">{{ initials }}</span>
       </button>
     </ion-buttons>
-    <ion-title>CGCritic</ion-title>
+
+    <ion-searchbar
+      class="home-search"
+      placeholder="Búsqueda"
+      [debounce]="400"
+      [value]="searchQuery"
+      maxlength="100"
+      (ionInput)="onSearchInput($event)"
+    ></ion-searchbar>
+
     <ion-buttons slot="end">
-      <ion-button (click)="logout()">
+      @if (isAdmin) {
+        <ion-button class="admin-btn" (click)="openAdmin()" aria-label="Solicitudes de crítico">
+          <ion-icon name="shield-checkmark" slot="icon-only"></ion-icon>
+        </ion-button>
+      }
+      <ion-button (click)="logout()" aria-label="Cerrar sesión">
         <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -15,15 +29,100 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="home-content">
-  <div class="home-empty">
-    <div class="home-mark">CG</div>
-    <h2>Home</h2>
-    <p>Nothing here yet — this is where the magic will happen.</p>
-  </div>
+  <!-- Search mode -->
+  @if (searching) {
+    <section class="home-section">
+      <h2 class="section-title">Resultados</h2>
+
+      @if (searchError && searchResults.length === 0) {
+        <p class="home-msg">{{ searchError }}</p>
+      } @else if (!searchLoading && searchResults.length === 0) {
+        <p class="home-msg">Sin resultados para “{{ searchQuery }}”.</p>
+      }
+
+      <div class="card-grid">
+        @for (game of searchResults; track trackGame(game)) {
+          <app-game-card [game]="game" (open)="openGame($event)" />
+        }
+      </div>
+
+      @if (searchLoading && searchResults.length === 0) {
+        <div class="home-loading"><ion-spinner name="crescent"></ion-spinner></div>
+      }
+
+      <ion-infinite-scroll
+        [disabled]="!searchHasMore"
+        (ionInfinite)="onSearchInfinite($event)"
+      >
+        <ion-infinite-scroll-content loadingSpinner="crescent"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </section>
+  } @else {
+    <!-- Browse mode -->
+    <section class="home-section">
+      <h2 class="section-title">Más populares</h2>
+
+      @if (popularError) {
+        <p class="home-msg">No se pudieron cargar los juegos populares.</p>
+      } @else {
+        <div class="row-scroll" (scroll)="onPopularScroll($event)">
+          @for (game of popular; track trackGame(game)) {
+            <div class="row-item">
+              <app-game-card [game]="game" (open)="openGame($event)" />
+            </div>
+          }
+          @if (popularLoading) {
+            <div class="row-spinner"><ion-spinner name="crescent"></ion-spinner></div>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- Platform rows -->
+    @for (row of platformRows; track trackPlatform($index, row)) {
+      @if (row.games.length || row.loading) {
+        <section class="home-section">
+          <h2 class="section-title">Para {{ row.platform.name }}</h2>
+          <div class="row-scroll" (scroll)="onPlatformScroll($event, row)">
+            @for (game of row.games; track trackGame(game)) {
+              <div class="row-item">
+                <app-game-card [game]="game" (open)="openGame($event)" />
+              </div>
+            }
+            @if (row.loading) {
+              <div class="row-spinner"><ion-spinner name="crescent"></ion-spinner></div>
+            }
+          </div>
+        </section>
+      }
+    }
+  }
 </ion-content>
 
+<!-- Profile panel -->
 <ion-modal class="profile-modal" [isOpen]="profileOpen" (didDismiss)="closeProfile()">
   <ng-template>
     <app-profile-menu (close)="closeProfile()"></app-profile-menu>
+  </ng-template>
+</ion-modal>
+
+<!-- Admin: critic applications -->
+<ion-modal class="detail-modal" [isOpen]="adminOpen" (didDismiss)="closeAdmin()">
+  <ng-template>
+    <app-admin-panel (close)="closeAdmin()"></app-admin-panel>
+  </ng-template>
+</ion-modal>
+
+<!-- Game detail -->
+<ion-modal class="detail-modal" [isOpen]="detailOpen" (didDismiss)="closeDetail()">
+  <ng-template>
+    @if (selectedRef) {
+      <app-game-detail
+        [gameRef]="selectedRef"
+        [canReview]="isCritic || isAdmin"
+        [currentUserId]="userId"
+        (close)="closeDetail()"
+      ></app-game-detail>
+    }
   </ng-template>
 </ion-modal>

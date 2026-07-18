@@ -1,0 +1,458 @@
+/* Fill the modal so ion-content gets a real height (otherwise it collapses
+   to the header height and the page can't scroll). */
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.gd-toolbar {
+  --background: var(--cg-bg);
+  --color: var(--cg-text);
+
+  ion-button {
+    --color: var(--cg-text);
+  }
+}
+
+.gd-content {
+  --background: var(--cg-bg);
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-top: 4px;
+  --padding-bottom: 40px;
+}
+
+.gd-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 60vh;
+  color: var(--cg-text-dim);
+  text-align: center;
+
+  ion-icon {
+    font-size: 44px;
+  }
+}
+
+/* ---- Hero ---- */
+.gd-hero {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.gd-cover {
+  flex: 0 0 auto;
+  width: 118px;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-border);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.gd-cover-ph {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(124, 47, 247, 0.28), rgba(229, 9, 59, 0.28));
+
+  ion-icon {
+    font-size: 34px;
+    color: var(--cg-text-dim);
+  }
+}
+
+.gd-headline {
+  flex: 1 1 auto;
+  min-width: 0; /* lets the name wrap instead of overflowing the flex row */
+}
+
+.gd-name {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--cg-text);
+  overflow-wrap: anywhere;
+}
+
+.gd-year {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--cg-text-dim);
+  margin-bottom: 12px;
+
+  ion-icon {
+    font-size: 15px;
+  }
+}
+
+.gd-ratings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gd-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-border);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--cg-text);
+
+  ion-icon {
+    font-size: 15px;
+  }
+
+  small {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cg-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  &.critic ion-icon {
+    color: var(--cg-gold);
+  }
+  &.user ion-icon {
+    color: var(--cg-purple);
+  }
+}
+
+/* ---- Sections ---- */
+.gd-section {
+  margin-top: 24px;
+}
+
+.gd-section-title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--cg-text-dim);
+}
+
+.gd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.gd-chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0b0710;
+  background: linear-gradient(135deg, var(--cg-gold), var(--cg-crimson));
+
+  &.outline {
+    color: var(--cg-text);
+    background: transparent;
+    border: 1px solid var(--cg-border);
+  }
+}
+
+.gd-summary {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cg-text);
+  opacity: 0.92;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+
+  &.clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.gd-link {
+  margin-top: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cg-gold);
+  cursor: pointer;
+}
+
+.gd-company {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--cg-text);
+  overflow-wrap: anywhere;
+
+  .gd-company-role {
+    color: var(--cg-text-dim);
+    font-weight: 600;
+  }
+}
+
+/* ---- Reviews ---- */
+.gd-reviews {
+  border-top: 1px solid var(--cg-border);
+  padding-top: 20px;
+}
+
+.gd-review-form {
+  margin-bottom: 22px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-border);
+}
+
+.gd-form-title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cg-text);
+}
+
+.gd-input,
+.gd-textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--cg-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--cg-text);
+  font-size: 14px;
+  font-family: inherit;
+
+  &::placeholder {
+    color: var(--cg-text-dim);
+  }
+}
+
+.gd-input {
+  margin-bottom: 10px;
+}
+
+.gd-textarea {
+  resize: vertical;
+  min-height: 92px;
+}
+
+.gd-rating-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.gd-stars-pick {
+  display: flex;
+  gap: 4px;
+}
+
+.gd-star-btn {
+  padding: 2px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  line-height: 0;
+
+  ion-icon {
+    font-size: 26px;
+    color: rgba(255, 255, 255, 0.22);
+    transition: color 0.1s ease, transform 0.1s ease;
+  }
+
+  &.active ion-icon {
+    color: var(--cg-gold);
+  }
+
+  &:active ion-icon {
+    transform: scale(0.85);
+  }
+}
+
+.gd-rating-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cg-text-dim);
+}
+
+.gd-review-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+
+  ion-button {
+    --border-radius: 10px;
+    text-transform: none;
+    font-weight: 700;
+  }
+
+  ion-spinner {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.gd-notice {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--cg-gold);
+
+  &.err {
+    color: var(--cg-crimson);
+  }
+}
+
+.gd-empty {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--cg-text-dim);
+}
+
+.gd-reviews-loading {
+  display: flex;
+  justify-content: center;
+  padding: 18px;
+}
+
+/* ---- Review list ---- */
+.gd-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gd-review {
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-border);
+
+  &.own {
+    border-color: rgba(124, 47, 247, 0.5);
+  }
+}
+
+.gd-review-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.gd-badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cg-text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--cg-border);
+
+  &.critic {
+    color: #0b0710;
+    background: linear-gradient(135deg, var(--cg-gold), var(--cg-crimson));
+    border: none;
+  }
+
+  &.own {
+    color: #fff;
+    background: var(--cg-purple);
+    border: none;
+  }
+}
+
+.gd-review-score {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--cg-text);
+
+  ion-icon {
+    font-size: 14px;
+    color: var(--cg-gold);
+  }
+
+  small {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cg-text-dim);
+  }
+}
+
+.gd-review-title {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cg-text);
+  overflow-wrap: anywhere;
+}
+
+.gd-stars-show {
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+
+  .gd-stars-bg {
+    color: rgba(255, 255, 255, 0.18);
+  }
+
+  .gd-stars-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--cg-gold);
+  }
+}
+
+.gd-review-content {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cg-text);
+  opacity: 0.92;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.gd-review-date {
+  font-size: 11px;
+  color: var(--cg-text-dim);
+}

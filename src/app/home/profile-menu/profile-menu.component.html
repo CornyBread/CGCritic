@@ -31,6 +31,7 @@
         type="text"
         placeholder="Nuevo username"
         autocapitalize="off"
+        maxlength="30"
         [(ngModel)]="newUsername"
       ></ion-input>
       <ion-button class="pm-save" (click)="saveUsername()" [disabled]="busy === 'username'">
@@ -50,6 +51,7 @@
           type="email"
           placeholder="Nuevo email"
           autocomplete="email"
+          maxlength="254"
           [(ngModel)]="newEmail"
         ></ion-input>
         <ion-button class="pm-save" (click)="saveEmail()" [disabled]="busy === 'email'">
@@ -83,8 +85,6 @@
       </button>
     }
 
-    <p class="pm-hint">El cambio de contraseña estará disponible pronto.</p>
-
     @if (message) {
       <p class="pm-message" [class.err]="messageKind === 'err'">{{ message }}</p>
     }
@@ -92,18 +92,20 @@
     <!-- Actions -->
     @if (!confirmingDelete) {
       <div class="pm-actions">
-        <ion-button
-          class="pm-action"
-          fill="outline"
-          (click)="becomeCritic()"
-          [disabled]="busy === 'critic' || isCritic"
-        >
-          @if (busy === 'critic') {
-            <ion-spinner name="crescent"></ion-spinner>
-          } @else {
-            {{ isCritic ? 'Ya eres crítico' : 'Ser crítico' }}
-          }
-        </ion-button>
+        @if (!isAdmin) {
+          <ion-button
+            class="pm-action"
+            fill="outline"
+            (click)="becomeCritic()"
+            [disabled]="busy === 'critic' || isCritic"
+          >
+            @if (busy === 'critic') {
+              <ion-spinner name="crescent"></ion-spinner>
+            } @else {
+              {{ isCritic ? 'Ya eres crítico' : 'Ser crítico' }}
+            }
+          </ion-button>
+        }
         <ion-button class="pm-action danger" fill="outline" (click)="deleteAccount()">
           Delete acc
         </ion-button>

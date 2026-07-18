@@ -1,0 +1,12 @@
+<button class="game-card" type="button" (click)="open.emit(game)" [attr.aria-label]="game.name">
+  <div class="gc-cover">
+    @if (cover && !imageError) {
+      <img [src]="cover" [alt]="game.name" loading="lazy" (error)="onImgError()" />
+    } @else {
+      <div class="gc-placeholder">
+        <ion-icon name="game-controller"></ion-icon>
+      </div>
+    }
+  </div>
+  <div class="gc-title">{{ game.name }}</div>
+</button>

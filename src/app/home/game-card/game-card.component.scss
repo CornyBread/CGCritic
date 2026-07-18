@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active .gc-cover {
+    transform: scale(0.97);
+  }
+}
+
+.gc-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-border);
+  transition: transform 0.12s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* any image size fills the box without distortion */
+    display: block;
+  }
+}
+
+.gc-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(124, 47, 247, 0.28),
+    rgba(229, 9, 59, 0.28)
+  );
+
+  ion-icon {
+    font-size: 38px;
+    color: var(--cg-text-dim);
+  }
+}
+
+.gc-title {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--cg-text);
+  overflow-wrap: anywhere;
+
+  /* Clamp long titles to two lines with an ellipsis. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

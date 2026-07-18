@@ -2,21 +2,14 @@
   --background: var(--cg-surface);
   --color: var(--cg-text);
   --border-width: 0;
-
-  ion-title {
-    font-weight: 800;
-    letter-spacing: 0.5px;
-  }
-
-  ion-button {
-    --color: var(--cg-gold);
-  }
+  --min-height: 58px;
+  padding-inline: 4px;
 }
 
 .avatar-btn {
   width: 38px;
   height: 38px;
-  margin-inline: 8px;
+  margin-inline: 6px;
   padding: 0;
   border: none;
   background: transparent;
@@ -43,6 +36,88 @@
   }
 }
 
+.home-search {
+  --background: rgba(255, 255, 255, 0.06);
+  --color: var(--cg-text);
+  --placeholder-color: var(--cg-text-dim);
+  --icon-color: var(--cg-text-dim);
+  --border-radius: 12px;
+  --box-shadow: none;
+  padding-inline: 4px;
+  min-width: 0;
+}
+
+.admin-btn {
+  --color: var(--cg-gold);
+}
+
+.home-content {
+  --background: var(--cg-bg);
+}
+
+.home-section {
+  padding: 16px 0 8px;
+}
+
+.section-title {
+  margin: 0 0 12px;
+  padding-inline: 16px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--cg-text);
+}
+
+.home-msg {
+  margin: 4px 0;
+  padding-inline: 16px;
+  font-size: 14px;
+  color: var(--cg-text-dim);
+}
+
+.home-loading,
+.row-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Horizontal carousel (populares) */
+.row-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 16px 8px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+
+  /* hide scrollbar but keep scrolling */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.row-item {
+  flex: 0 0 auto;
+  width: 128px;
+  scroll-snap-align: start;
+}
+
+.row-spinner {
+  flex: 0 0 auto;
+  width: 60px;
+}
+
+/* Responsive grid (resultados de búsqueda) */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 16px;
+  padding: 4px 16px 16px;
+}
+
+/* Modals */
 .profile-modal {
   --background: transparent;
   --box-shadow: none;
@@ -55,47 +130,6 @@
   }
 }
 
-.home-content {
+.detail-modal {
   --background: var(--cg-bg);
-}
-
-.home-empty {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 24px;
-  gap: 10px;
-
-  h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--cg-text);
-  }
-
-  p {
-    margin: 0;
-    font-size: 14px;
-    color: var(--cg-text-dim);
-    max-width: 280px;
-  }
-}
-
-.home-mark {
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 28px;
-  letter-spacing: 1px;
-  color: #0b0710;
-  background: linear-gradient(135deg, var(--cg-gold) 0%, var(--cg-crimson) 100%);
-  box-shadow: 0 10px 30px rgba(229, 9, 59, 0.35);
-  margin-bottom: 8px;
 }

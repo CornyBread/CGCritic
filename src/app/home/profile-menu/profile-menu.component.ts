@@ -53,14 +53,21 @@ export class ProfileMenuComponent implements OnInit {
     this.loading = false;
   }
 
-  /** Primary role shown next to the username. */
+  /** Most significant role shown next to the username. */
   get role(): string {
-    const roles = this.profile?.roles;
-    return roles && roles.length ? roles[0] : 'User';
+    const roles = this.profile?.roles ?? [];
+    // Highest privilege first; fall back to whatever the backend sent.
+    const priority = ['Owner', 'Admin', 'Critic', 'BasicUser'];
+    return priority.find((r) => roles.includes(r)) ?? roles[0] ?? 'User';
   }
 
   get isCritic(): boolean {
     return !!this.profile?.roles?.includes('Critic');
+  }
+
+  get isAdmin(): boolean {
+    const roles = this.profile?.roles ?? [];
+    return roles.includes('Admin') || roles.includes('Owner');
   }
 
   private ok(text: string): void {

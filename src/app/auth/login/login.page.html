@@ -6,7 +6,6 @@
 
   <div class="auth-wrapper">
     <div class="brand">
-      <div class="brand-mark">CG</div>
       <div class="brand-text">
         <h1>CGCritic</h1>
         <p>Pierce the truth of every story</p>
@@ -26,6 +25,7 @@
             labelPlacement="floating"
             fill="solid"
             autocomplete="username"
+            maxlength="254"
             [(ngModel)]="email"
             name="email"
           ></ion-input>
@@ -39,6 +39,7 @@
             labelPlacement="floating"
             fill="solid"
             autocomplete="current-password"
+            maxlength="128"
             [(ngModel)]="password"
             name="password"
           ></ion-input>
