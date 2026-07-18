@@ -41,6 +41,7 @@ interface PlatformRow {
   offset: number;
   total: number;
   loading: boolean;
+  done: boolean;
 }
 
 @Component({
@@ -189,15 +190,40 @@ export class HomePage implements OnInit {
       platform,
       games: [],
       offset: 0,
-      total: Infinity,
+      total: 0,
       loading: false,
+      done: false,
     }));
 
-    for (const row of this.platformRows) void this.loadPlatformRow(row);
+    for (const row of this.platformRows) void this.initPlatformRow(row);
+  }
+
+  /**
+   * Starts each platform row at a random window into its catalogue, so the
+   * same multiplatform games don't show up in all three rows. First peeks the
+   * total count, then picks a random offset to begin paginating from.
+   */
+  private async initPlatformRow(row: PlatformRow): Promise<void> {
+    row.loading = true;
+    const count = await this.games.search({
+      platforms: row.platform.id,
+      limit: 1,
+      offset: 0,
+    });
+    if (count.success && count.data) {
+      const total = count.data.meta.totalCount;
+      row.total = total;
+      row.offset =
+        total > PAGE_SIZE
+          ? Math.floor(Math.random() * (total - PAGE_SIZE))
+          : 0;
+    }
+    row.loading = false; // synchronous handoff to loadPlatformRow (no re-render)
+    await this.loadPlatformRow(row);
   }
 
   async loadPlatformRow(row: PlatformRow): Promise<void> {
-    if (row.loading || row.games.length >= row.total) return;
+    if (row.loading || row.done) return;
     row.loading = true;
 
     const res = await this.games.search({
@@ -209,9 +235,11 @@ export class HomePage implements OnInit {
       row.games = dedupeGames([...row.games, ...res.data.games]);
       row.total = res.data.meta.totalCount;
       row.offset += PAGE_SIZE;
+      if (res.data.games.length < PAGE_SIZE || row.offset >= row.total) {
+        row.done = true;
+      }
     } else {
-      // Stop retrying this row on error.
-      row.total = row.games.length;
+      row.done = true;
     }
     row.loading = false;
   }

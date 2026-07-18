@@ -119,7 +119,7 @@
     @if (selectedRef) {
       <app-game-detail
         [gameRef]="selectedRef"
-        [canReview]="isCritic || isAdmin"
+        [canReview]="true"
         [currentUserId]="userId"
         (close)="closeDetail()"
       ></app-game-detail>

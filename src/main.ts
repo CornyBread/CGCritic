@@ -5,7 +5,11 @@ import {
   withPreloading,
   PreloadAllModules,
 } from '@angular/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -34,6 +38,7 @@ import {
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
+import { authRefreshInterceptor } from './app/core/interceptors/auth-refresh.interceptor';
 
 addIcons({
   'mail-outline': mailOutline,
@@ -63,7 +68,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authRefreshInterceptor])),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });
