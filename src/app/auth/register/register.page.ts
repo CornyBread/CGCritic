@@ -101,7 +101,8 @@ export class RegisterPage {
   async onSocial(provider: SocialProvider): Promise<void> {
     this.error = null;
     this.loadingProvider = provider;
-    this.auth.startSocialLogin(provider);
+    await this.auth.startBackendOAuth(provider);
+    this.loadingProvider = null;
   }
 
   goToLogin(): void {

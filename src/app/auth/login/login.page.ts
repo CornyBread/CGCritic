@@ -40,26 +40,12 @@ export class LoginPage implements OnInit {
   loadingProvider: SocialProvider | null = null;
   error: string | null = null;
 
-  async ngOnInit(): Promise<void> {
-    // Handle the OAuth redirect callback (?code=...&state=google|github)
-    const code = this.route.snapshot.queryParamMap.get('code');
-    const state = this.route.snapshot.queryParamMap.get('state');
-
-    if (code && (state === 'google' || state === 'github')) {
-      const provider: SocialProvider = state === 'google' ? 'Google' : 'GitHub';
-      this.loadingProvider = provider;
-
-      const result = await this.auth.exchangeSocialCode(provider, code);
-
-      // Clean the OAuth params out of the URL.
+  ngOnInit(): void {
+    // Surface an error bubbled up from a failed OAuth deep-link return.
+    const oauthError = this.route.snapshot.queryParamMap.get('oauthError');
+    if (oauthError) {
+      this.error = oauthError;
       this.router.navigate([], { queryParams: {}, replaceUrl: true });
-
-      if (result.success) {
-        this.router.navigateByUrl('/home', { replaceUrl: true });
-      } else {
-        this.error = result.error ?? `${provider} authentication failed.`;
-      }
-      this.loadingProvider = null;
     }
   }
 
@@ -88,8 +74,10 @@ export class LoginPage implements OnInit {
   async onSocial(provider: SocialProvider): Promise<void> {
     this.error = null;
     this.loadingProvider = provider;
-    // Full-page redirect to the provider; resolves back in ngOnInit().
-    this.auth.startSocialLogin(provider);
+    // Opens the backend OAuth flow in the system browser; the deep link
+    // (handled app-wide in AppComponent) resumes and routes to /home.
+    await this.auth.startBackendOAuth(provider);
+    this.loadingProvider = null;
   }
 
   goToRegister(): void {
